@@ -1,0 +1,156 @@
+<script charset="utf-8" src="__STATIC__/kin/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="__STATIC__/kin/lang/zh-CN.js"></script>
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="nav-tabs-custom" style="margin-top: 20px;">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#fa-icons-server" data-toggle="tab">基本信息</a></li>
+          <!--<li class=""><a href="#fa-icons-content" data-toggle="tab">邮件设置</a></li>-->
+        </ul>
+        <form action="{:Url::build('admin/System/index');}" enctype="multipart/form-data" method="post" name="qxform" id="qxform">
+        <div class="tab-content">
+          <!-- Font Awesome Icons -->
+          <div class="tab-pane active" style="padding-left: 20px;" id="fa-icons-server">
+            <section id="new">
+              <div class="row fontawesome-icon-list">
+                <div class="col-md-3 col-sm-4" >
+                  <label>网站名称：</label><input type="text" id="name" name="name" value="{$info.name}"> <span class="icon icon-title margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" >
+                  <label>英文名称：</label><input type="text" id="en_name" name="en_name" value="{$info.en_name}"> <span class="icon icon-en_title margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" >
+                <label>网站标题：</label><input type="text" id="title" name="title" value="{$info.title}"> <span class="icon icon-stitle margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" >
+                <label>网站关键字：</label><textarea rows="2" name="keywords">{$info.keywords}</textarea>
+                </div>
+                <div class="col-md-3 col-sm-4" >
+                <label>网站描述：</label><textarea rows="2" name="description">{$info.description}</textarea>
+                </div>
+                <div class="col-md-3 col-sm-4" >
+                  <label>网站Logo：</label><span id="selectpic" style="cursor:pointer;color:#1E88C7;background: #D0EEFF;border-radius: 5px;padding:5px 22px;">选择图片</span>
+                    <div style="margin-left: 63px;" id="preview"></div>
+                    <input id="upload" name="logo" accept="image/*" type="file" style="display: none"/>
+                </div>
+                  {if !empty($info['logo'])}
+                  <div class="col-md-3 col-sm-4" >
+                    <label></label><a href="{$info.logo}" target="_blank"><img src="{$info.logo}" width="" height="" /></a>
+                  </div>
+                  {/if}
+
+                <div class="col-md-3 col-sm-4" >
+                  <label>微信公众号：</label><span id="selectpics" style="cursor:pointer;color:#1E88C7;background: #D0EEFF;border-radius: 5px;padding:5px 22px;">选择图片</span>
+                  <div style="margin-left: 63px;" id="previews"></div>
+                  <input id="uploads" name="img" accept="image/*" type="file" style="display: none"/>
+                </div>
+                {if !empty($info['img'])}
+                <div class="col-md-3 col-sm-4" >
+                  <label></label><a href="{$info.img}" target="_blank"><img src="{$info.img}" width="100" height="100" /></a>
+                </div>
+                {/if}
+                <div class="col-md-3 col-sm-4">
+                  <label>底部设置：</label><textarea rows="1" name="footer" style="text-indent:10px;width:100%;">{$info.footer}</textarea>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  <label>底部设置(英)：</label><textarea rows="1" name="en_footer" style="text-indent:10px;width:100%;">{$info.en_footer}</textarea>
+                </div>
+                <div class="col-md-3 col-sm-4" >
+                  <label>客服QQ：</label><input type="text" id="qq" name="qq" value="{$info.qq}"> <span class="icon icon-stitle margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" >
+                  <label>底部服务热线：</label><input type="text" id="tel" name="tel" value="{$info.tel}"> <span class="icon icon-stitle margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" >
+                  <label>底部邮箱：</label><input type="text" id="email" name="email" value="{$info.email}"> <span class="icon icon-stitle margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  <label>底部地址：</label><textarea rows="2" name="address">{$info.address}</textarea>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  <label>底部地址（英文）：</label><textarea rows="2" name="addr">{$info.addr}</textarea>
+                </div>
+              </div>
+            </section>
+          </div>
+          <!--<div class="tab-pane" style="padding-left: 20px;" id="fa-icons-content">-->
+            <!--<div class="row fontawesome-icon-list">-->
+              <!--<div class="col-md-3 col-sm-4" style="color:#f00">-->
+                <!--温馨提示：发件人邮件必须开启STMP服务才能使用-->
+              <!--</div>-->
+              <!--<div class="col-md-3 col-sm-4" >-->
+                <!--<label>SMTP服务器：</label><input type="text" name="sms" value="{$info.sms}" placeholder="发送邮箱的smtp地址。如: smtp.gmail.com或smtp.qq.com"> <span class="icon icon-title margin-small" ></span>-->
+              <!--</div>-->
+              <!--<div class="col-md-3 col-sm-4" >-->
+                <!--<label>SMTP端口：</label><input type="text" name="smdk" value="{$info.smdk}" placeholder="smtp的端口。默认为25。具体请参看各STMP服务商的设置说明 （如果使用Gmail，请将端口设为465）"> <span class="icon icon-stitle margin-small" ></span>-->
+              <!--</div>-->
+              <!--<div class="col-md-3 col-sm-4" >-->
+                <!--<label>SMTP用户名：</label><input type="text" name="smuser" value="{$info.smuser}" placeholder="使用发送邮件的邮箱账号"> <span class="icon icon-title margin-small" ></span>-->
+              <!--</div>-->
+              <!--<div class="col-md-3 col-sm-4" >-->
+                <!--<label>SMTP密码：</label><input type="text" name="smpwd" value="{$info.smpwd}" placeholder="使用发送邮件的邮箱密码或者授权码"> <span class="icon icon-stitle margin-small" ></span>-->
+              <!--</div>-->
+              <!--<div class="col-md-3 col-sm-4" >-->
+                <!--<label>SMTP发件人：</label><input type="text" name="smname" value="{$info.smname}" placeholder="发件人名称"> <span class="icon icon-title margin-small" ></span>-->
+              <!--</div>-->
+              <!--<div class="col-md-3 col-sm-4" >-->
+                <!--<label>发件人邮件：</label><input type="text" name="sendemail" value="{$info.sendemail}" placeholder="发送邮件的邮箱账号"> <span class="icon icon-stitle margin-small" ></span>-->
+              <!--</div>-->
+              <!--<div class="col-md-3 col-sm-4" >-->
+                <!--<label>接收者邮件：</label><input type="text" name="jieshou" value="{$info.jieshou}" placeholder="接收者邮件"> <span class="icon icon-title margin-small" ></span>-->
+              <!--</div>-->
+              <!--<div class="col-md-3 col-sm-4" >-->
+                <!--<label>是否开启：</label>-->
+                  <!--<div class="onoff">-->
+                    <!--<label for="switch1" class="cb-enable {if $info['is_open'] == 1}selected{/if}">开启</label>-->
+                    <!--<label for="switch0" class="cb-disable {if $info['is_open'] == 0}selected{/if}">关闭</label>-->
+                    <!--<input type="radio" id="switch1"  name="is_open" value="1" checked="{if $info['is_open'] == 1}checked{/if}">-->
+                    <!--<input type="radio" id="switch0" name="is_open" value="0" {if $info['is_open'] == 0}checked="checked"{/if}>-->
+                  <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <button type="button" class="btn btn-primary" style="margin-top: 10px;margin-bottom:20px;margin-left: 100px;" onclick="qxsubmit();">提交</button><span class="icon icon-ms margin-small" ></span>
+        </div>
+        </form>
+        <!-- /.tab-content -->
+      </div>
+    </div>
+    <!-- /.col -->
+  </div>
+<style>
+  .col-sm-4{width:60%;line-height:30px;margin-top:15px;display: inline-block;}
+  .col-sm-4 label{color:#555;width:auto;font-weight:500}
+  .col-sm-4 input{color:#444444;width:100%;text-indent:10px;}
+  .col-sm-4 textarea{text-indent:10px;width:100%;}
+</style>
+<script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/public/common.js"></script>
+<script>
+    function qxsubmit() {
+        document.qxform.submit();
+    }
+    $(function() {
+        $("#selectpic").click(function () {
+            $("#upload").click();
+            $("#upload").on("change",function(){
+                previewImage(this,'preview',200,200);
+            });
+        });
+        $("#selectpics").click(function () {
+            $("#uploads").click();
+            $("#uploads").on("change",function(){
+                previewImages(this,'previews',200,200);
+            });
+        });
+    });
+    $("div.onoff label").click(function (){
+        $(this).addClass("selected").siblings("label").removeClass("selected");
+    });
+</script>
+</section>
+
+
+
+

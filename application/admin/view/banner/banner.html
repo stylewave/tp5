@@ -1,0 +1,134 @@
+<link rel="stylesheet" href="__STATIC__/admin/adminlte/bower_components/select2/css/select2.min.css">
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="nav-tabs-custom" style="margin-top: 20px;">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#fa-icons-server" data-toggle="tab">基本信息</a></li>
+        </ul>
+        <form action="{:Url::build('admin/Banner/banner');}" enctype="multipart/form-data" method="post" name="qxform" id="qxform">
+        <div class="tab-content">
+          <div class="tab-pane active" style="padding-left: 20px;" id="fa-icons-server">
+              <!--<input type="hidden" name="__token__" value="{$Request.token}" />-->
+              <input type="hidden" name="id" id="infoid" value="{$info.id}" />
+            <section id="new">
+              <!--<h4 class="page-header">{if isset($info) && !empty($info)}修改{else/}添加{/if}banner</h4>-->
+                <div><br />
+                    上传大小限制：{php}echo ini_get('upload_max_filesize');{/php}
+                </div>
+              <div class="row fontawesome-icon-list">
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <div class="form-group">
+                    <label>选择分类：</label>
+                    <select class="form-control select2" style="width: 30%;" name="cateid" id="cateid" onchange="getValue()">
+                    <option selected="selected" value="0">请选择分类</option>
+                    {foreach $catelist as $rbac}
+                    <option value="{$rbac.id}" {if $rbac['id'] == $info['cateid']}selected{/if}>{php}if($rbac['dj'] > 0)  {echo str_repeat(" ---- ",$rbac['dj'])." ";}{/php}{$rbac.title}</option>
+                    {/foreach}
+                  </select>
+                    <span class="icon icon-cateid margin-small" ></span><span style="color: red">*</span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>标题：</label>
+                    <input type="text" style="color: #444444;width: 80%" id="title" name="title" value="{$info.title}"> <span style="color: red">*</span><span class="icon icon-title margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>标题（英）：</label>
+                    <input type="text" style="color: #444444;width: 80%" id="en_title" name="en_title" value="{$info.en_title}"> <span class="icon icon-en_title margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>链接：</label>
+                    <input type="text" style="color: #444444;width: 80%" id="url" name="url" value="{$info.url}"> <span class="icon icon-stitle margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>图片：</label>
+                    <span id="selectpic" style="cursor:pointer;color:#1E88C7;background: #D0EEFF;border-radius: 5px;padding:5px 22px;">选择图片</span>
+                  <span style="color: #ff0e0e;margin-left: 20px" id="color">
+                        {if $info['cateid'] == '79'}
+                            建议尺寸：1920*854
+                        {else /}
+                           建议尺寸：1920*484
+                        {/if}
+                  </span>
+                    <div style="margin-left: 63px;" id="preview"></div>
+                    <input id="upload" name="img" accept="image/*" type="file" style="display: none"/>
+                </div>
+                  {if !empty($info['img'])}
+                  <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                    <label>原有图片：</label>
+                      <a href="{$info.img}" target="_blank"><img src="{$info.img}" width="250" height="150" style="padding-bottom:50px"></a>
+                  </div>
+                  {/if}
+
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label> 排序：</label><input type="text" style="color: #444444;width: 20%" id="orders" name="orders" value="{$info.orders}"> <span style="color: red">>=0，越小越前，前后台都有效，默认50</span><span class="icon icon-order margin-small" ></span>
+                </div>
+
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>是否显示：</label>
+                  <div class="onoff">
+                    <label for="switch1" class="cb-enable {if ($info['ist'] == 1) OR !isset($_GET['id'])}selected{/if}">是</label>
+                    <label for="switch0" class="cb-disable {if ($info['ist'] == 0) && isset($_GET['id'])}selected{elseif !isset($_GET['id']) /}{/if}">否</label>
+                    <input type="radio" id="switch1" name="ist" value="1" checked="{if ($info['ist'] == 1) OR ($info['ist'] == '')}checked{/if}">
+                    <input type="radio" id="switch0" name="ist" value="0" {if ($info['ist'] == 0) && isset($_GET['id'])}checked="checked"{/if}>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="qxsubmit();">提交</button><span class="icon icon-ms margin-small" ></span>
+          <button type="button" class="btn" style="margin-top: 10px;margin-bottom:20px;background: #ecf0f5" onclick="javascript:window.history.back(-1);">返回</button>
+        </div>
+        </form>
+        <!-- /.tab-content -->
+      </div>
+    </div>
+    <!-- /.col -->
+  </div>
+  <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+  <script type="text/javascript" src="__STATIC__/public/common.js"></script>
+<script src="__STATIC__/admin/adminlte/bower_components/select2/js/select2.min.js"></script>
+<script src="__STATIC__/admin/adminlte/bower_components/select2/js/i18n/zh-CN.js"></script>
+<script>
+    function qxsubmit() {
+        if($('#cateid').val() <1) {
+            tips('请选择分类！','.icon-cateid','cateid');
+            return false;
+        }
+        if($('#title').val() == '') {
+            tips('请填写标题！','.icon-title','title');
+            return false;
+        }
+        document.qxform.submit();
+    }
+    function getValue(){
+        if($("#cateid option:selected").text() == '首页banner'){
+            $('#color').text('建议尺寸：1920*854');
+        }else{
+            $('#color').text('建议尺寸：1920*484');
+        }
+    }
+    $(function() {
+        $('.select2').select2({
+            language:'zh-CN'
+        });
+        $("#selectpic").click(function () {
+            $("#upload").click();
+        });
+        $("#upload").on("change",function(){
+            previewImage(this,'preview',200,200);
+        });
+    });
+</script>
+    <style>
+        .col-sm-4 input{text-indent:10px;}
+        #preview #imghead{margin-top:10px !important;}
+        .col-sm-4 label{color:#555;width:10%;font-weight:300}
+        .btn-primary{margin-top: 10px;margin-bottom:20px;margin-left: 115px;}
+    </style>
+</section>
+
+
+
+

@@ -1,0 +1,62 @@
+<style>
+  #example1 tr:hover{
+    background-color: #1EA2E3;color: white;
+  }
+  #example1 tr:hover td a,#example1 tr:hover td i{
+    color:#fff;
+  }
+  #example1 thead tr:hover:first-child{background:none;color:#333}
+</style>
+<script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/public/common.js"></script>
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <!--<div class="box-header">-->
+          <!--<h3 class="box-title">权限组列表</h3>-->
+        <!--</div>-->
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table id="example1" class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+              <th>权限组名称</th>
+              <th>权限组成员数</th>
+              <th>权限组具体权限</th>
+              <th>添加时间</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+         {foreach $list as $li}
+            <tr>
+              <td>{$li.title}</td>
+              <td>{$li.num}</td>
+              <td>{$li.pre|raw}</td>
+              <td>{$li.addtime}</td>
+              <td><a href="{:Url::build('admin/Rbac/addRbac',['id'=>$li['id']])}"><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;  <a href="javascript:void(0);" onclick="isdel('您确定要删除这个权限组吗？','{:Url::build('admin/Rbac/delRbac',['id'=>$li['id']])}');"><i class="fa fa-trash-o"></i> 删除</a></td>
+            </tr>
+         {/foreach}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="dataTables_info"  role="status" aria-live="polite">
+        <!--Showing 1 to 10 of 57 entries-->
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <div class="dataTables_paginate paging_simple_numbers" >
+        {$list->render()|raw}
+      </div>
+    </div>
+  </div>
+</section>

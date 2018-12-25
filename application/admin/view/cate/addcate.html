@@ -1,0 +1,227 @@
+<link rel="stylesheet" href="__STATIC__/admin/adminlte/bower_components/select2/css/select2.min.css">
+<script charset="utf-8" src="__STATIC__/kin/lang/zh-CN.js"></script>
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="nav-tabs-custom" style="margin-top: 20px;">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#fa-icons-server" data-toggle="tab">{if isset($info) && !empty($info)}修改{else/}添加{/if}分类</a></li>
+        </ul>
+        <div class="tab-content">
+          <!-- Font Awesome Icons -->
+          <div class="tab-pane active" id="fa-icons-server">
+            <form action="{:Url::build('admin/Cate/addCate');}" method="post" name="qxform" id="qxform" enctype="multipart/form-data">
+              <input type="hidden" name="__token__" value="{$Request.token}" />
+              <input type="hidden" name="id" id="infoid" value="{$info.id}" />
+            <section id="new">
+              <!--<h4 class="page-header">分类信息</h4>-->
+              <div class="row fontawesome-icon-list">
+                <div class="col-md-3 col-sm-4">
+                  <div class="form-group">
+                    <label>选择类别：</label>
+                    <select class="form-control select2" style="width: 50%;" name="tid" id="tid" onchange="getValue()">
+                    {if !$info}
+                    <option selected="selected" value="0">请选择分类所属类别</option>
+                    {foreach $leibie as $rbac}
+                    <option value="{$rbac.id}" {if $rbac['id'] == $info['tid']}selected{/if}>{$rbac.title}</option>
+                    {/foreach}
+                    {else/}
+                    {foreach $leibie as $rbac}
+                    {if $rbac['id'] == $info['tid']}<option value="{$rbac.id}" >{$rbac.title}</option>{/if}
+                    {/foreach}
+                    {/if}
+                  </select>
+                    <span class="icon icon-tid margin-small" ></span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  <div class="form-group">
+                    <label>上级分类：</label>
+                    <span id="shangjiid" ></span>
+                    <span class="icon icon-pid margin-small" ></span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  <label>分类名称：</label>
+                  <input type="text" style="color: #444444;width: 80%" id="title" name="title" value="{$info.title}"> <span style="color: red">*</span><span class="icon icon-username margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  <label>链接地址：</label>
+                  <input type="text" style="color: #444444;width: 80%" name="url" value="{$info.url}"> <span style="color: red">*</span><span class="icon icon-username margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  <label>英文名称：</label>
+                  <input type="text" style="color: #444444;width: 80%" id="en_title" name="en_title" value="{$info.en_title}"> <span style="color: red">*</span><span class="icon icon-en_title margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  <label>英文地址：</label>
+                  <input type="text" style="color: #444444;width: 80%" name="en_url" value="{$info.en_url}"> <span style="color: red">*</span><span class="icon icon-en_url margin-small" ></span>
+                </div>
+                {if $info['tid'] == 20}
+                <div class="col-md-3 col-sm-4">
+                  <label>分类图片：</label>
+                  <span id="selectpic" style="cursor:pointer;color:#1E88C7;background: #D0EEFF;border-radius: 5px;padding:5px 22px;">选择图片</span>   尺寸：142*115
+                  <div style="margin-left: 63px;" id="preview"></div>
+                  <input id="upload" name="img" accept="image/*" type="file" style="display: none"/>
+                </div>
+                {if !empty($info['img'])}
+                <div class="col-md-3 col-sm-4" >
+                  <label>原有图片：</label>
+                  <a href="{$info.img}" target="_blank"><img src="{$info.img}" style="width: 60px;height:50px"></a>
+                </div>
+                {/if}
+                <div class="col-md-3 col-sm-4">
+                  <label>描述：</label>
+                  <input type="text" style="color: #444444;width: 80%" id="cat_desc" name="cat_desc" value="{$info.cat_desc}">
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  <label>描述(英)：</label>
+                  <input type="text" style="color: #444444;width: 80%" id="en_cat_desc" name="en_cat_desc" value="{$info.en_cat_desc}">
+                </div>
+                {else /}
+                <div class="col-md-3 col-sm-4" id="department_a" style="display: none">
+                  <label>分类图片：</label>
+                  <span id="selectpic" style="cursor:pointer;color:#1E88C7;background: #D0EEFF;border-radius: 5px;padding:5px 22px;">选择图片</span>   尺寸：142*115
+                  <div style="margin-left: 63px;" id="preview"></div>
+                  <input id="upload" name="img" accept="image/*" type="file" style="display: none"/>
+                </div>
+                {if !empty($info['img'])}
+                <div class="col-md-3 col-sm-4" >
+                  <label>原有图片：</label>
+                    <a href="{$info.img}" target="_blank"><img src="{$info.img}" style="width: 60px;height:50px"></a>
+                </div>
+                {/if}
+                <div class="col-md-3 col-sm-4" id="department_desc" style="display: none">
+                  <label>描述：</label>
+                  <input type="text" style="color: #444444;width: 80%" id="cat_desc" name="cat_desc" value="{$info.cat_desc}">
+                </div>
+                <div class="col-md-3 col-sm-4" id="en_department_desc" style="display: none">
+                  <label>描述(英)：</label>
+                  <input type="text" style="color: #444444;width: 80%" id="en_cat_desc" name="en_cat_desc" value="{$info.en_cat_desc}">
+                </div>
+                {/if}
+                <div class="col-md-3 col-sm-4">
+                  <label>分类排序：</label>
+                  <input type="text" style="color: #444444;width: 20%" id="orders" name="orders" value="{$info.orders}"> <span style="color: red">>=0，越小越前，只对前台有效</span><span class="icon icon-order margin-small" ></span>
+                </div>
+                  <div class="col-md-3 col-sm-4">
+                    <label>是否显示：</label>
+                    <div class="onoff">
+                      <label for="switch1" class="cb-enable {if ($info['ist'] == 1) OR !isset($_GET['id'])}selected{/if}">是</label>
+                      <label for="switch0" class="cb-disable {if ($info['ist'] == 0) && isset($_GET['id'])}selected{elseif !isset($_GET['id']) /}{/if}">否</label>
+                      <input type="radio" id="switch1" name="ist" value="1" checked="{if ($info['ist'] == 1) OR ($info['ist'] == '')}checked{/if}">
+                      <input type="radio" id="switch0" name="ist" value="0" {if ($info['ist'] == 0) && isset($_GET['id'])}checked="checked"{/if}>
+                    </div>
+                  </div>
+              </div>
+            </section>
+              <button type="button" class="btn btn-primary" onclick="qxsubmit();">提交</button><span class="icon icon-userqx margin-small" ></span>
+              <button type="button" class="btn" style="margin-top: 10px;margin-bottom:20px;background: #ecf0f5" onclick="javascript:window.history.back(-1);">返回</button>
+          </form>
+          </div>
+          <!-- /#fa-icons -->
+        </div>
+        <!-- /.tab-content -->
+      </div>
+    </div>
+    <!-- /.col -->
+  </div>
+  <style>
+    .col-sm-4{width: 60%;line-height: 30px;margin-top: 15px;}
+    .col-sm-4 input,.col-sm-4 textarea{text-indent: 10px}
+    .department_a,.department_desc{display: block !important;}
+    .col-sm-4 label{color:#555;width:10%;font-weight:300}
+    .btn-primary{margin-top: 10px;margin-bottom:20px;margin-left: 115px;}
+  </style>
+  <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+  <script type="text/javascript" src="__STATIC__/public/common.js"></script>
+  <script src="__STATIC__/admin/adminlte/bower_components/select2/js/select2.min.js"></script>
+  <script src="__STATIC__/admin/adminlte/bower_components/select2/js/i18n/zh-CN.js"></script>
+<script>
+    function qxsubmit() {
+        if($('#tid').val() <1) {
+            tips('请选择分类类别！','.icon-tid','tid');
+            return false;
+        }
+        if(typeof($('#pid').val()) =='undefined') {
+            tips('请选择上级分类！','.icon-pid','pid');
+            return false;
+        }
+        if($('#title').val() == '') {
+            tips('请填写分类名称！','.icon-username','title');
+            return false;
+        }
+        document.qxform.submit();
+    }
+
+    function getCatelist() {
+        try{
+            var cateid = "{$info.id}";
+            var tidvalue = parseInt($('#tid').val());
+            if(tidvalue <= 0) {
+                $('#shangjiid').html('');
+                return false;
+            }
+            var is = false;
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: "{:Url::build('admin/Cate/addCate');}",
+                data: {tid:tidvalue,id:cateid},
+                dataType:'json',
+                success: function (data) {
+                    if (data.code == 1) {
+                        $('#shangjiid').html(data.msg);
+                        $('.select5').select2({
+                            language:'zh-CN'
+                        });
+                        return true;
+                    } else {
+                        is = true;
+                        rmsg = data.msg;
+                    }
+                }
+            });
+            if(is) {
+                throw rmsg;
+            }
+        }catch (e){
+            alert(e);
+            return false;
+        }
+    }
+
+  $(function(){
+      $('.select2').select2({
+          language:'zh-CN'
+      });
+      $("#selectpic").click(function () {
+          $("#upload").click();
+      });
+      $("#upload").on("change",function(){
+          previewImage(this,'preview',100,100);
+      });
+      $('#tid').change(function(){
+          getCatelist();
+      })
+
+      getCatelist();
+
+  });
+    function getValue(){
+        if($("#tid option:selected").text() == '产品分类'){
+            $('#department_a').addClass('department_a');
+            $('#department_desc').addClass('department_desc');
+            $('#en_department_desc').addClass('en_department_desc');
+        }else{
+            $('#department_a').removeClass('department_a');
+            $('#department_desc').removeClass('department_desc');
+            $('#en_department_desc').removeClass('en_department_desc');
+        }
+    }
+</script>
+</section>
+
+
+
+

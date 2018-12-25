@@ -1,0 +1,253 @@
+<link rel="stylesheet" href="__STATIC__/admin/adminlte/bower_components/select2/css/select2.min.css">
+<script charset="utf-8" src="__STATIC__/kin/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="__STATIC__/kin/lang/zh-CN.js"></script>
+<script>
+    // 关闭过滤模式，保留所有标签
+    KindEditor.ready(function(K) {
+        window.editor_id_td = K.create('#editor_id_td',{
+            uploadJson :"{:Url::build('admin/Product/add')}",//自己的上传路
+            extraFileUploadParams:{
+                'FLASHPHPSESSID' : "<?php echo session_id();?>"
+            }
+        });
+    });
+    KindEditor.ready(function(K) {
+        window.editor_id_td_en = K.create('#editor_id_td_en',{
+            uploadJson :"{:Url::build('admin/Product/add')}",//自己的上传路
+            extraFileUploadParams:{
+                'FLASHPHPSESSID' : "<?php echo session_id();?>"
+            }
+        });
+    });
+    KindEditor.ready(function(K) {
+        window.editor_id_js = K.create('#editor_id_js',{
+            uploadJson :"{:Url::build('admin/Product/add')}",//自己的上传路
+            extraFileUploadParams:{
+                'FLASHPHPSESSID' : "<?php echo session_id();?>"
+            }
+        });
+    });
+    KindEditor.ready(function(K) {
+        window.editor_id_js_en = K.create('#editor_id_js_en',{
+            uploadJson :"{:Url::build('admin/Product/add')}",//自己的上传路
+            extraFileUploadParams:{
+                'FLASHPHPSESSID' : "<?php echo session_id();?>"
+            }
+        });
+    });
+</script>
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="nav-tabs-custom" style="margin-top: 20px;">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#fa-icons-server" data-toggle="tab">基本信息</a></li>
+          <li class=""><a href="#fa-icons-pic" data-toggle="tab">产品相册</a></li>
+          <li class=""><a href="#fa-icons-td" data-toggle="tab">产品特点</a></li>
+          <li class=""><a href="#fa-icons-js" data-toggle="tab">产品介绍</a></li>
+            <li class=""><a href="#fa-icons-td-en" data-toggle="tab">产品特点（英）</a></li>
+            <li class=""><a href="#fa-icons-js-en" data-toggle="tab">产品介绍（英）</a></li>
+        </ul>
+        <form action="{:Url::build('admin/Product/add');}" enctype="multipart/form-data" method="post" name="qxform" id="qxform">
+        <div class="tab-content">
+          <!-- Font Awesome Icons -->
+          <div class="tab-pane active" style="padding-left: 20px;" id="fa-icons-server">
+              <input type="hidden" name="__token__" value="{$Request.token}" />
+              <input type="hidden" name="id" id="infoid" value="{$info.id}" />
+            <section id="new">
+              <!--<h4 class="page-header">{if isset($info) && !empty($info)}修改{else/}添加{/if}产品</h4>-->
+                <div><br />
+                    上传大小限制：{php}echo ini_get('upload_max_filesize');{/php}
+                </div>
+              <div class="row fontawesome-icon-list">
+                  <div class="col-md-3 col-sm-4">
+                      <div class="form-group">
+                          选择分类：<select class="form-control select2" style="width: 50%;" name="cateid" id="cateid">
+                          <option selected="selected" value="0">请选择分类</option>
+                          {foreach $catelist as $rbac}
+                          <option value="{$rbac.id}" {if $rbac['id'] == $info['cateid']}selected{/if}>{php}if($rbac['dj'] > 0)  {echo str_repeat(" ---- ",$rbac['dj'])." ";}{/php}{$rbac.title}</option>
+                          {/foreach}
+                      </select>
+                          <span class="icon icon-cateid margin-small" ></span><span style="color: red">*</span>
+                      </div>
+                  </div>
+                <div class="col-md-3 col-sm-4">
+                  产品标题：<input type="text" style="color: #444444;width: 80%" id="title" name="title" value="{$info.title}"> <span style="color: red">*</span><span class="icon icon-title margin-small" ></span>
+                </div>
+                  <div class="col-md-3 col-sm-4">
+                      标题(英)：<input type="text" style="color: #444444;width: 80%" id="en_title" name="en_title" value="{$info.en_title}">
+                  </div>
+                <div class="col-md-3 col-sm-4">
+                    封面图片：<span id="selectpic" style="cursor:pointer;color:#1E88C7;background: #D0EEFF;border-radius: 5px;padding:5px 22px;">选择图片</span><span style="color: #ff0e0e;margin-left: 20px" >建议尺寸：280*160</span>
+                    <div style="margin-left: 63px;" id="preview"></div>
+                    <input id="upload" name="img" accept="image/*" type="file" style="display: none"/>
+                </div>
+                  {if !empty($info['img'])}
+                  <div class="col-md-3 col-sm-4">
+                      原有图片：<a href="{$info.img}" target="_blank"><img src="{$info.img}" style="width:200px;height:120px;"></a>
+                  </div>
+                  {/if}
+                  <div class="col-md-3 col-sm-4">
+                      产品描述：<textarea rows="2" style="width: 100%" name="description">{$info.description}</textarea>
+                  </div>
+
+                  <div class="col-md-3 col-sm-4">
+                      产品描述(英)：<textarea rows="2" style="width: 100%" name="en_description">{$info.en_description}</textarea>
+                  </div>
+
+                <div class="col-md-3 col-sm-4">
+                  产品排序：<input type="text" style="color: #444444;width: 20%" id="orders" name="orders" value="{$info.orders}"> <span style="color: red">　>=0，越小越前，前后台都有效</span><span class="icon icon-order margin-small" ></span>
+                </div>
+
+                  <div class="col-md-3 col-sm-4" style="width: 80%">
+                      <label>是否推荐：</label>
+                      <div class="onoff">
+                          <label for="switch1" class="cb-enable {if $info['is_floor'] == 1}selected{/if}">是</label>
+                          <label for="switch0" class="cb-disable {if $info['is_floor'] == 0}selected{/if}">否</label>
+                          <input type="radio" id="switch1" name="is_floor" value="1" checked="{if $info['is_floor'] == 1}checked{/if}">
+                          <input type="radio" id="switch0" name="is_floor" value="0" {if $info['is_floor'] == 0}checked="checked"{/if}>
+                      </div>
+                  </div>
+                  <div class="col-md-3 col-sm-4">
+                      <div class="form-group">
+                          推荐到解决方案：<select class="form-control select2" style="width: 50%;" name="is_show">
+                          <option selected="selected" value="0">请选择解决方案类别</option>
+                          {foreach $fanglist as $fang}
+                          <option value="{$fang.id}" {if $fang['id'] == $info['is_show']}selected{/if}>{$fang.title}</option>
+                          {/foreach}
+                      </select>
+                      </div>
+                  </div>
+              </div>
+            </section>
+          </div>
+          <div class="tab-pane" id="fa-icons-pic">
+            <!--<h4 class="page-header">{if isset($info) && !empty($info)}修改{else/}添加{/if}产品</h4>-->
+            <div style="padding-left: 20px;"><br />
+                    上传大小限制：{php}echo ini_get('upload_max_filesize');{/php}<br><br>
+                <input id="btn_add_pic" type="button" value="添加一张" style="padding: 6px 10px !important;background: #3c8dbc;color:#ffffff;cursor: pointer;border-radius: 3px;border:0;line-height: inherit !important;"/><span style="color: #ff0e0e;margin-left: 20px">建议尺寸：280*160</span>
+                <br /> <br />
+                <ul id="ul_pic_list" style="display: inline"></ul>
+                <hr />
+                {if condition="isset($info['id']) gt 0"}
+                {notempty name="image_arr"}
+                <ul id="old_pic_list" style="height: 150px">
+                        {foreach $image_arr as $k=>$v}
+                        {if $v == ''}
+                        {else /}
+                        <li style="text-align: center;">
+                            <input type="hidden" name="oldpic[]" value="{$v}">
+                            <img src="{$v}" alt="" width="100" height="100"><br />
+                            <input class="btn_del_pic" pic_id="{$k}" pro_id="{$info.id}" type="button" value="删除" style="color:blue;background:#FE764B;border: none;color:#fff;margin-top: 10px"/>
+                        </li>
+                        {/if}
+                        {/foreach}
+                    </ul>
+                {/notempty}
+                {/if}
+            </div>
+          </div>
+            <!--产品特点-->
+          <div class="tab-pane" id="fa-icons-td">
+            <div style="width: 100%; padding: 20px;">
+                  <textarea id="editor_id_td" name="content_td" style="width:100%;height:500px;">{$info.content_td}</textarea>
+            </div>
+          </div>
+            <!--产品介绍-->
+            <div class="tab-pane" id="fa-icons-js">
+                <div style="width: 100%; padding: 20px;">
+                    <textarea id="editor_id_js" name="content_js" style="width:100%;height:600px;">{$info.content_js}</textarea>
+                </div>
+            </div>
+            <!--产品特点en-->
+            <div class="tab-pane" id="fa-icons-td-en">
+                <div style="width: 100%; padding: 20px;">
+                    <textarea id="editor_id_td_en" name="content_td_en" style="width:100%;height:600px;">{$info.content_td_en}</textarea>
+                </div>
+            </div>
+            <!--产品介绍en-->
+            <div class="tab-pane" id="fa-icons-js-en">
+                <div style="width: 100%; padding: 20px;">
+                    <textarea id="editor_id_js_en" name="content_js_en" style="width:100%;height:600px;">{$info.content_js_en}</textarea>
+                </div>
+            </div>
+
+          <button type="button" class="btn btn-primary" style="margin-top: 10px;margin-bottom:20px;margin-left: 100px;" onclick="qxsubmit();">提交</button><span class="icon icon-ms margin-small" ></span>
+        </div>
+        </form>
+        <!-- /.tab-content -->
+      </div>
+    </div>
+    <!-- /.col -->
+  </div>
+    <style>
+        .col-sm-4{width: 60%;line-height: 30px;margin-top: 15px;}
+        .col-sm-4 input,{text-indent: 10px}
+        .col-sm-4 textarea{padding:5px;line-height: 22px !important}
+        #ul_pic_list li{margin:5px;list-style-type:none;}
+        #old_pic_list li{float:left;width:auto;height:auto;margin:10px;list-style-type:none;}
+        #cat_list{background:#EEE;margin:0;}
+        #cat_list li{margin:5px;}
+        a.jian{padding:3px 10px;background:#dd4b39;color:#FFF;border-radius: 5px}
+        #ul_pic_list input[type="file"]{display: inline-block;}
+    </style>
+    <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+  <script type="text/javascript" src="__STATIC__/public/common.js"></script>
+  <script src="__STATIC__/admin/adminlte/bower_components/select2/js/select2.min.js"></script>
+  <script src="__STATIC__/admin/adminlte/bower_components/select2/js/i18n/zh-CN.js"></script>
+<script>
+    $("#btn_add_pic").click(function(){
+        var file = '<li><input type="file" name="pic[]" accept="image/*"/><a href="javascript:;" class="jian" onclick="$(this).parent().remove();">移除</a></li>';
+        $("#ul_pic_list").append(file);
+    });
+    // 删除图片
+    $(".btn_del_pic").click(function(){
+        if(confirm('确定要删除吗？')){
+            // 先选中删除按钮所在的li标签
+            var li = $(this).parent();
+            // 从这个按钮上获取pic_id属性
+            var pid = $(this).attr("pic_id");
+            var pro_id = $(this).attr("pro_id");
+            $.ajax({
+                type : "GET",
+                url : "{:Url::build('admin/Product/ajaxDelPic')}?picid="+pid+"&id="+pro_id,
+                success : function(data){
+                    li.remove();// 把图片从页面中删除掉
+                    alert('删除成功！');
+                }
+            });
+        }
+    });
+    function qxsubmit() {
+        if($('#cateid').val() <1) {
+            tips('请选择分类！','.icon-cateid','cateid');
+            return false;
+        }
+        if($('#title').val() == '') {
+            tips('请填写标题！','.icon-title','title');
+            return false;
+        }
+        editor_id_td.sync();
+        editor_id_td_en.sync();
+        editor_id_js.sync();
+        editor_id_js_en.sync();
+        document.qxform.submit();
+    }
+
+    $(function() {
+        $('.select2').select2({
+            language:'zh-CN'
+        });
+        $("#selectpic").click(function () {
+            $("#upload").click();
+        });
+        $("#upload").on("change",function(){
+            previewImage(this,'preview',100,100);
+        });
+    });
+</script>
+</section>
+
+
+
+

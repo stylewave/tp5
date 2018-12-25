@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="__STATIC__/admin/adminlte/bower_components/select2/css/select2.min.css">
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="nav-tabs-custom" style="margin-top: 20px;">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#fa-icons-server" data-toggle="tab">基本信息</a></li>
+        </ul>
+        <form action="{:Url::build('admin/Store/store');}" enctype="multipart/form-data" method="post" name="qxform" id="qxform">
+        <div class="tab-content">
+          <div class="tab-pane active" style="padding-left: 20px;" id="fa-icons-server">
+              <input type="hidden" name="__token__" value="{$Request.token}" />
+              <input type="hidden" name="id" id="infoid" value="{$info.id}" />
+            <section id="new">
+              <!--<h4 class="page-header">{if isset($info) && !empty($info)}修改{else/}添加{/if}banner</h4>-->
+              <div class="row fontawesome-icon-list">
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>地点：</label>
+                  <input type="text" style="color: #444444;width: 80%" id="city" name="city" value="{$info.city}"> <span class="icon icon-city margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>地点(英)：</label>
+                  <input type="text" style="color: #444444;width: 80%" id="en_city" name="en_city" value="{$info.en_city}"> <span class="icon icon-en_city margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>地址：</label>
+                  <input type="text" style="color: #444444;width: 80%" id="address" name="address" value="{$info.address}"> <span class="icon icon-address margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>地址(英)：</label>
+                  <input type="text" style="color: #444444;width: 80%" id="en_address" name="en_address" value="{$info.en_address}">
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>联系人：</label>
+                  <input type="text" style="color: #444444;width: 80%" name="username" value="{$info.username}">
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>联系人(英)：</label>
+                  <input type="text" style="color: #444444;width: 80%" name="en_username" value="{$info.en_username}">
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>电话：</label>
+                  <input type="text" style="color: #444444;width: 80%" name="tel" value="{$info.tel}">
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>手机：</label>
+                  <input type="text" style="color: #444444;width: 80%" name="mobile" value="{$info.mobile}">
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>QQ：</label>
+                  <input type="text" style="color: #444444;width: 80%" name="qq" value="{$info.qq}">
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>邮箱：</label>
+                  <input type="text" style="color: #444444;width: 80%" name="email" value="{$info.email}">
+                </div>
+              </div>
+            </section>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="qxsubmit();">提交</button><span class="icon icon-ms margin-small" ></span>
+          <button type="button" class="btn" style="margin-top: 10px;margin-bottom:20px;background: #ecf0f5" onclick="javascript:window.history.back(-1);">返回</button>
+        </div>
+        </form>
+        <!-- /.tab-content -->
+      </div>
+    </div>
+    <!-- /.col -->
+  </div>
+  <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+  <script type="text/javascript" src="__STATIC__/public/common.js"></script>
+<script src="__STATIC__/admin/adminlte/bower_components/select2/js/select2.min.js"></script>
+<script src="__STATIC__/admin/adminlte/bower_components/select2/js/i18n/zh-CN.js"></script>
+<script>
+    function qxsubmit() {
+        if($('#title').val() == '') {
+            tips('请填写地址！','.icon-address','address');
+            return false;
+        }
+        document.qxform.submit();
+    }
+    $(function() {
+        $('.select2').select2({
+            language:'zh-CN'
+        });
+    });
+</script>
+    <style>
+        .col-sm-4 input{text-indent:10px;}
+        .col-sm-4 label{color:#555;width:10%;font-weight:300}
+        .btn-primary{margin-top: 10px;margin-bottom:20px;margin-left: 115px;}
+    </style>
+</section>
+
+
+
+

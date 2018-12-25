@@ -1,0 +1,35 @@
+{__NOLAYOUT__}
+<table id="example1" class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th>日志描述</th>
+    <th>日志类型</th>
+    <th>操作的用户</th>
+    <th>操作时间</th>
+    <th>操作IP</th>
+  </tr>
+  </thead>
+  <tbody>
+  {foreach $list as $li}
+  <tr>
+    <td>{$li.remark}</td>
+    <td>{$logtype[$li['type']]}</td>
+    <td>{$li.username}</td>
+    <td>{$li.addtime}</td>
+    <td>{$li.ip}</td>
+  </tr>
+  {/foreach}
+  </tbody>
+</table>
+<div class="row">
+  <div class="col-sm-5">
+    <div class="dataTables_info"  role="status" aria-live="polite">
+      <!--Showing 1 to 10 of 57 entries-->
+    </div>
+  </div>
+  <div class="col-sm-7">
+    <div class="dataTables_paginate paging_simple_numbers" >
+      {$list->render()|raw}
+    </div>
+  </div>
+</div>

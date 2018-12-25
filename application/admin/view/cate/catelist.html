@@ -1,0 +1,157 @@
+<style>
+    #example1 tr:hover{
+        background-color: #1EA2E3;color: white;
+    }
+    #example1 tr:hover input{
+        background-color: white;color: #0f0f0f;
+    }
+    #example1 tr:hover td a,#example1 tr:hover td i{
+        color:#fff;
+    }
+    #example1 thead tr:hover:first-child{background:none;color:#333}
+    .col-sm-7{width: 100%;text-align: center;}
+</style>
+<script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/public/common.js"></script>
+<script type="text/javascript" src="__STATIC__/public/jquery.pjax.min.js"></script>
+<script type="text/javascript" src="__STATIC__/public/nprogress.js"></script>
+<link rel="stylesheet" href="__STATIC__/public/nprogress.css">
+<script src="__STATIC__/admin/adminlte/bower_components/select2/js/select2.min.js"></script>
+<script src="__STATIC__/admin/adminlte/bower_components/select2/js/i18n/zh-CN.js"></script>
+<link rel="stylesheet" href="__STATIC__/admin/adminlte/bower_components/select2/css/select2.min.css">
+<section class="content"  >
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <!--<div class="box-header">-->
+          <!--<h3 class="box-title">分类列表</h3>-->
+        <!--</div>-->
+        <!-- /.box-header -->
+        <div class="box-body" >
+          <div class="col-sm-6" style="width: 100%">
+              <div class="col-md-3 col-sm-4" style="line-height: 30px;margin-top: 15px;">
+                  <span style="width: 30%;display: block;float: left;">每页条数：</span><select datavalue="limit" class="form-control input-sm pjaxchangge" id="limitchangge" style="width: 50%;display: block;">
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
+              <div class="col-md-3 col-sm-4" style="line-height: 40px;margin-top: 15px;">
+                  <div class="form-group">
+                      分类筛选：<select style="width: 50%;"  datavalue="cateid"  class="form-control input-sm pjaxchangge  select2" id="cateid" >
+                      <option selected="selected" value="0">所有分类</option>
+                      {foreach $list as $user}
+                      <option value="{$user.id}">{php}if($user['dj'] > 0)  {echo str_repeat(" L__ ",$user['dj'])." ";}{/php}{$user.title}</option>
+                      {/foreach}
+                  </select>
+                  </div>
+              </div>
+              <div class="col-md-3 col-sm-4" style="line-height: 40px;margin-top: 15px;">
+                <div class="form-group">
+                  <span style="width: 30%;display: block;float: left;">分类类别：</span><select  datavalue="tid" class="form-control input-sm  select2" id="tid" style="width: 50%;display: block;float: left;">
+                  {foreach $tall as $logkey=>$log}
+                    <option  value="{$logkey}" {if $tinfo['id'] == $logkey}selected{/if}>{$log.title}</option>
+                  {/foreach}
+                </select>
+                </div>
+              </div>
+          </div>
+          <div id="Contentspjax" >
+          <table id="example1" class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+              <th>分类ID</th>
+              <th>分类名称</th>
+              <th>英文分类名称</th>
+              <th>上级分类</th>
+              <th>所属类别</th>
+              <th>是否显示</th>
+              <th>分类排序</th>
+              <th>添加时间</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $i=0;?>
+         {foreach $lists['data'] as $li}
+            <?php $i++;?>
+            <tr>
+              <td>{$li.id}</td>
+              <td style="text-align: left;padding-left: 3%">{php}if($li['dj'] > 0)  {echo str_repeat(" ---- ",$li['dj'])." ";}{/php}{$li.title}</td>
+              <td style="text-align: left;padding-left: 5%">{php}if($li['dj'] > 0)  {echo str_repeat(" ---- ",$li['dj'])." ";}{/php}{$li.en_title}</td>
+              <td>{$li.pname}</td>
+              <td><a href="{:Url::build('admin/Cate/typeList')}" >{$li.tname}</a></td>
+              <td>
+                {if $li['ist'] == 1}
+                    <a href="javascript:void(0);" onclick="isdo('确定要隐藏吗？','{:Url::build('admin/Cate/ajaxCate',['id'=>$li['id'],'tid'=>$li['tid'],'do'=>'qxtj'])}',this);">
+                        <i class="fa fa-check"> 是</i>
+                    </a>
+                {else/}
+                    <a href="javascript:void(0);"  onclick="isdo('确定要显示吗？','{:Url::build('admin/Cate/ajaxCate',['id'=>$li['id'],'tid'=>$li['tid'],'do'=>'tj'])}',this);">
+                        <i class="fa fa-ban"> 否</i>
+                    </a>
+                {/if}
+              </td>
+                <td><input style="text-align: center;" type="text" tipvalue="cateordertip{$i}" size="3" value="{$li.orders}" onblur="isdo('','{:Url::build('admin/Cate/ajaxCate',['id'=>$li['id'],'tid'=>$li['tid'],'do'=>'order'])}',this);"/> <span class="icon icon-cateordertip{$i} margin-small" ></span></td>
+              <td>{$li.addtime}</td>
+              <td><a href="{:Url::build('admin/Cate/addCate',['id'=>$li['id'],'tid'=>$li['tid']])}"><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;  <a href="javascript:void(0);" onclick="isdel('您确定要删除这个分类吗？','{:Url::build('admin/Cate/delCate',['id'=>$li['id'],'tid'=>$li['tid']])}');"><i class="fa fa-trash-o"></i> 删除</a></td>
+            </tr>
+         {/foreach}
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-sm-5">
+              <div class="dataTables_info"  role="status" aria-live="polite">
+                <!--Showing 1 to 10 of 57 entries-->
+              </div>
+            </div>
+            <div class="col-sm-7">
+              <div class="dataTables_paginate paging_simple_numbers" >
+                    {$lists.page|raw}
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+</section>
+<script>
+    $(function(){
+        $('#tid').change(function(){
+            window.location.href="{:Url::build('admin/Cate/cateList')}?tid="+$(this).val();
+        })
+
+        $('.select2').select2({
+            language:'zh-CN'
+        });
+        $(".pjaxchangge").change(function(){
+            var selectstr = '';
+            $(".pjaxchangge").each(function(){
+                var ids = $(this).attr('id');
+                var gettype = $(this).attr('datavalue');
+                selectstr = selectstr==''?gettype+"="+$('#'+ids).val():selectstr+"&"+gettype+"="+$('#'+ids).val();
+            })
+
+            selectstr = selectstr==''?'':'&'+selectstr;
+
+            $.pjax({
+                url: "{:Url::build('admin/Cate/cateList')}?tid={$tinfo.id}"+selectstr,
+                container: '#Contentspjax'
+            });
+        });
+        $(document).pjax('.pagination li a', '#Contentspjax', { timeout:3000,replace:true,scrollTo:false});
+        $(document).on('pjax:start', function() { NProgress.start(); });
+        $(document).on('pjax:end',   function() { NProgress.done();  });
+    })
+</script>
+
+
+
+

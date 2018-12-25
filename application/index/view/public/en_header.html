@@ -1,0 +1,23 @@
+
+<header class="header">
+    <div class="warp-nav">
+        <a href="{:Url::build('/en_index')}"><img class="logo" src="{$config.logo}" alt=""></a>
+        <div class="lang">
+            <a href="/"><img src="__STATIC__/home/images/cn.png" alt=""></a>
+        </div>
+        <ul class="nav">
+            <?php $i=0;?>
+            {foreach $nav as $key=>$value}
+            <?php $i++;?>
+            <li class="nav-active{$i}">
+                <a href="{:Url::build('/'.$value['en_url'])}">{$value.en_title}</a>
+                <dl>
+                    {foreach $value.dao as $ko=>$vo}
+                    <dd><a href="{:Url::build('/'.$vo['en_url'])}?id={$vo.id}">{$vo.en_title}</a></dd>
+                    {/foreach}
+                </dl>
+            </li>
+            {/foreach}
+        </ul>
+    </div>
+</header>

@@ -1,0 +1,45 @@
+{__NOLAYOUT__}
+<table id="example1" class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th>地点</th>
+        <th>地址</th>
+        <th>联系人</th>
+        <th>联系人（英）</th>
+        <th>电话</th>
+        <th>手机</th>
+        <th>邮箱</th>
+        <th>QQ</th>
+        <th>添加时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php $i=0;?>
+    {foreach $list as $li}
+    <?php $i++;?>
+    <tr>
+        <td>{$li.city}</td>
+        <td>{$li.address}</td>
+        <td>{$li.username}</td>
+        <td>{$li.en_username}</td>
+        <td>{$li.tel}</td>
+        <td>{$li.mobile}</td>
+        <td>{$li.email}</td>
+        <td>{$li.qq}</td>
+        <td>{$li.addtime}</td>
+        <td><a href="{:Url::build('admin/Store/store',['id'=>$li['id']])}"><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;  <a href="javascript:void(0);" onclick="isdel('您确定要删除这个门店信息吗？','{:Url::build('admin/Store/del',['id'=>$li['id']])}');"><i class="fa fa-trash-o"></i> 删除</a></td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="dataTables_info"  role="status" aria-live="polite"></div>
+    </div>
+    <div class="col-sm-7">
+      <div class="dataTables_paginate paging_simple_numbers" >
+          {$list->render()|raw}
+      </div>
+    </div>
+  </div>

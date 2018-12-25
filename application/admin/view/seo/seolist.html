@@ -1,0 +1,108 @@
+<style>
+    #example1 tr:hover{
+        background-color: #1EA2E3;color: white;
+    }
+    #example1 tr:hover input{
+        background-color: white;color: #0f0f0f;
+    }
+    #example1 tr:hover td a,#example1 tr:hover td i{
+        color:#fff;
+    }
+    #example1 thead tr:hover:first-child{background:none;color:#333}
+    .col-sm-7{width: 100%;text-align: center;}
+</style>
+<script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/public/common.js"></script>
+<script type="text/javascript" src="__STATIC__/public/jquery.pjax.min.js"></script>
+<script type="text/javascript" src="__STATIC__/public/nprogress.js"></script>
+<link rel="stylesheet" href="__STATIC__/public/nprogress.css">
+<script src="__STATIC__/admin/adminlte/bower_components/select2/js/select2.min.js"></script>
+<script src="__STATIC__/admin/adminlte/bower_components/select2/js/i18n/zh-CN.js"></script>
+<link rel="stylesheet" href="__STATIC__/admin/adminlte/bower_components/select2/css/select2.min.css">
+<section class="content"  >
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-body" >
+          <div class="col-sm-6" style="width: 100%">
+              <div class="col-md-3 col-sm-4" style="margin-bottom:20px;line-height: 40px;margin-top: 15px;">
+                  <span style="width: 30%;display: block;float: left;">每页条数：</span><select datavalue="limit" class="form-control input-sm pjaxchangge" id="limitchangge" style="width: 50%;display: block;float: left;">
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
+          </div>
+          <div id="Contentspjax" >
+          <table id="example1" class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+                <th>栏目</th>
+                <th>标题</th>
+                <th>关键词</th>
+                <th>描述</th>
+                <!--<th>添加时间</th>-->
+                <th width="8%">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+         {foreach $list as $li}
+            <tr>
+                <td>{$li.cate}</td>
+                <td>{$li.title}</td>
+                <td>{$li.keywords}</td>
+                <td>{$li.description}</td>
+                <!--<td>{$li.addtime}</td>-->
+                <td><a href="{:Url::build('admin/seo/seo',['id'=>$li['id']])}"><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;  <a href="javascript:void(0);" onclick="isdel('您确定要删除这条内容吗？','{:Url::build('admin/seo/seodel',['id'=>$li['id']])}');"><i class="fa fa-trash-o"></i> 删除</a></td>
+            </tr>
+         {/foreach}
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-sm-5">
+              <div class="dataTables_info"  role="status" aria-live="polite">
+                <!--Showing 1 to 10 of 57 entries-->
+              </div>
+            </div>
+            <div class="col-sm-7">
+              <div class="dataTables_paginate paging_simple_numbers" >
+                  {$list->render()|raw}
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+</section>
+<script>
+    $(function(){
+        $('.select2').select2({
+            language:'zh-CN'
+        });
+        $(".pjaxchangge").change(function(){
+            var selectstr = '';
+            $(".pjaxchangge").each(function(){
+                var ids = $(this).attr('id');
+                var gettype = $(this).attr('datavalue');
+                selectstr = selectstr==''?gettype+"="+$('#'+ids).val():selectstr+"&"+gettype+"="+$('#'+ids).val();
+            })
+
+            selectstr = selectstr==''?'':'?'+selectstr;
+
+            $.pjax({
+                url: "{:Url::build('admin/seo/seolist')}"+selectstr,
+                container: '#Contentspjax'
+            });
+        });
+        $(document).pjax('.pagination li a', '#Contentspjax', { timeout:3000,replace:true,scrollTo:false});
+        $(document).on('pjax:start', function() { NProgress.start(); });
+        $(document).on('pjax:end',   function() { NProgress.done();  });
+    })
+</script>

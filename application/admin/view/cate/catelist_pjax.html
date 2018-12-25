@@ -1,0 +1,56 @@
+{__NOLAYOUT__}
+
+            <table id="example1" class="table table-bordered table-striped table-hover">
+              <thead>
+              <tr>
+                <th>分类ID</th>
+                <th>分类名称</th>
+                <th>英文分类名称</th>
+                <th>上级分类</th>
+                <th>所属类别</th>
+                <th>是否显示</th>
+                <th>分类排序</th>
+                <th>添加时间</th>
+                <th>操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <?php $i=0;?>
+              {foreach $lists['data'] as $li}
+              <?php $i++;?>
+              <tr>
+                <td>{$li.id}</td>
+                <td style="text-align: left;padding-left: 3%">{php}if($li['dj'] > 0)  {echo str_repeat(" ---- ",$li['dj'])." ";}{/php}{$li.title}</td>
+                <td style="text-align: left;padding-left: 5%">{php}if($li['dj'] > 0)  {echo str_repeat(" ---- ",$li['dj'])." ";}{/php}{$li.en_title}</td>
+                <td>{$li.pname}</td>
+                <td><a href="{:Url::build('admin/Cate/typeList')}" >{$li.tname}</a></td>
+                <td>
+                  {if $li['ist'] == 1}
+                  <a href="javascript:void(0);" onclick="isdo('确定要隐藏吗？','{:Url::build('admin/Cate/ajaxCate',['id'=>$li['id'],'tid'=>$li['tid'],'do'=>'qxtj'])}',this);">
+                    <i class="fa fa-check"> 是</i>
+                  </a>
+                  {else/}
+                  <a href="javascript:void(0);"  onclick="isdo('确定要显示吗？','{:Url::build('admin/Cate/ajaxCate',['id'=>$li['id'],'tid'=>$li['tid'],'do'=>'tj'])}',this);">
+                    <i class="fa fa-ban"> 否</i>
+                  </a>
+                  {/if}
+                </td>
+                <td><input style="text-align: center;" type="text" tipvalue="cateordertip{$i}" size="3" value="{$li.orders}" onblur="isdo('','{:Url::build('admin/Cate/ajaxCate',['id'=>$li['id'],'tid'=>$li['tid'],'do'=>'order'])}',this);"/> <span class="icon icon-cateordertip{$i} margin-small" ></span></td>
+                <td>{$li.addtime}</td>
+                <td><a href="{:Url::build('admin/Cate/addCate',['id'=>$li['id'],'tid'=>$li['tid']])}"><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;  <a href="javascript:void(0);" onclick="isdel('您确定要删除这个分类吗？','{:Url::build('admin/Cate/delCate',['id'=>$li['id'],'tid'=>$li['tid']])}');"><i class="fa fa-trash-o"></i> 删除</a></td>
+              </tr>
+              {/foreach}
+              </tbody>
+            </table>
+            <div class="row">
+              <div class="col-sm-5">
+                <div class="dataTables_info"  role="status" aria-live="polite">
+                  <!--Showing 1 to 10 of 57 entries-->
+                </div>
+              </div>
+              <div class="col-sm-7">
+                <div class="dataTables_paginate paging_simple_numbers" >
+                  {$lists.page|raw}
+                </div>
+              </div>
+            </div>

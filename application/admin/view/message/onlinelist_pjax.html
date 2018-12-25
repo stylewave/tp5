@@ -1,0 +1,39 @@
+{__NOLAYOUT__}
+<table id="example1" class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <th>名</th>
+        <th>姓</th>
+        <th>城市</th>
+        <th>电话</th>
+        <th>邮箱</th>
+        <th>留言内容</th>
+        <th>提交时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach $list as $li}
+    <tr>
+        <td>{$li.username}</td>
+        <td>{$li.usernames}</td>
+        <td>{$li.city}</td>
+        <td>{$li.tel}</td>
+        <td>{$li.email}</td>
+        <td>{$li.content}</td>
+        <td>{$li.addtime}</td>
+        <td><a href="javascript:void(0);" onclick="isdel('您确定要删除这条留言吗？','{:Url::build('admin/Message/delete',['id'=>$li['id']])}');"><i class="fa fa-trash-o"></i> 删除</a></td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="dataTables_info"  role="status" aria-live="polite"></div>
+    </div>
+    <div class="col-sm-7">
+      <div class="dataTables_paginate paging_simple_numbers" >
+          {$list->render()|raw}
+      </div>
+    </div>
+  </div>

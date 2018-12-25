@@ -1,0 +1,106 @@
+<style>
+  .ddddddddddddddddddd:hover{
+    background-color: #1EA2E3;color: white;
+  }
+</style>
+<link rel="stylesheet" href="__STATIC__/admin/adminlte/bower_components/select2/css/select2.min.css">
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="nav-tabs-custom" style="margin-top: 20px;">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#fa-icons-server" data-toggle="tab">{if isset($info) && !empty($info)}修改{else/}添加{/if}权限组成员</a></li>
+        </ul>
+        <div class="tab-content">
+          <!-- Font Awesome Icons -->
+          <div class="tab-pane active" id="fa-icons-server">
+            <form action="{:Url::build('admin/Rbac/addUser');}" method="post" name="qxform" id="qxform">
+              <input type="hidden" name="__token__" value="{$Request.token}" />
+              <input type="hidden" name="id" id="infoid" value="{$info.id}" />
+            <section id="new">
+              <!--<h4 class="page-header">成员信息</h4>-->
+              <div class="row fontawesome-icon-list">
+                <div class="col-md-3 col-sm-4">
+                  登录账号：<input type="text" style="color: #444444;width: 80%" id="username" name="username" value="{$info.username}"> <span style="color: red">*</span><span class="icon icon-username margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  姓名昵称：<input type="text" style="color: #444444;width: 80%" id="nickname" name="nickname" value="{$info.nickname}"> <span style="color: red">*</span><span class="icon icon-nickname margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  登录密码：<input type="password" style="color: #444444;width: 80%" id="pass" name="pass" value=""> <span style="color: red">*{if $info}不改密码留空{/if}</span><span class="icon icon-pass margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                  确认密码：<input type="password" style="color: #444444;width: 80%" id="rpass" name="rpass" value=""> <span style="color: red">*{if $info}不改密码留空{/if}</span><span class="icon icon-rpass margin-small" ></span>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                    <div class="form-group">
+                      选择权限：<select class="form-control select2" style="width: 50%;" name="pre" id="pre">
+                        {if !$info}<option selected="selected" value="0">请选择成员所属权限组</option>{/if}
+                        {foreach $rbacs as $rbac}
+                          <option value="{$rbac.id}" {if $rbac['id'] == $info['pre']}selected{/if}>{$rbac.title}</option>
+                        {/foreach}
+                      </select>
+                      <span class="icon icon-pre margin-small" ></span>
+                    </div>
+                </div>
+              </div>
+            </section>
+              <button type="button" class="btn btn-primary" style="margin-top: 30px;margin-left: 100px;" onclick="qxsubmit();">提交</button><span class="icon icon-userqx margin-small" ></span>
+              <button type="button" class="btn" style="margin-top: 50px;margin-bottom:20px;background: #ecf0f5" onclick="javascript:window.history.back(-1);">返回</button>
+          </form>
+          </div>
+          <!-- /#fa-icons -->
+        </div>
+        <!-- /.tab-content -->
+      </div>
+    </div>
+    <!-- /.col -->
+  </div>
+  <style>
+    .col-sm-4{width: 60%;line-height: 30px;margin-top: 15px;}
+    .col-sm-4 input,.col-sm-4 textarea{text-indent: 10px}
+  </style>
+  <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+  <script type="text/javascript" src="__STATIC__/public/common.js"></script>
+  <script src="__STATIC__/admin/adminlte/bower_components/select2/js/select2.min.js"></script>
+  <script src="__STATIC__/admin/adminlte/bower_components/select2/js/i18n/zh-CN.js"></script>
+<script>
+  $(function(){
+      $('.select2').select2({
+          language:'zh-CN'
+      });
+  })
+  function qxsubmit() {
+    if($('#username').val() == '') {
+        tips('请填写成员登录账号！','.icon-username','username');
+        return false;
+    }
+      if($('#nickname').val() == '') {
+          tips('请填写成员姓名！','.icon-nickname','nickname');
+          return false;
+      }
+      if($('#infoid').val() > 0) {
+
+      } else {
+          if($('#pass').val() == '') {
+              tips('请填写登录密码！','.icon-pass','pass');
+              return false;
+          }
+      }
+      if($('#pass').val() != $('#rpass').val()) {
+          tips('两次输入密码不一致！','.icon-rpass','rpass');
+          return false;
+      }
+
+      if($('#pre').val() == '0') {
+          tips('请选择用户所属权限组！','.icon-pre','pre');
+          return false;
+      }
+    document.qxform.submit();
+  }
+</script>
+</section>
+
+
+
+

@@ -1,0 +1,39 @@
+<footer class="footer">
+    <div class="warp">
+        <div class="foot-top">
+            <dl>
+                <dt>About</dt>
+                {foreach $footer_dao as $about}
+                <dd><a href="{:Url::build('/'.$about['en_url'])}?id={$about.id}">{$about.en_title}</a></dd>
+                {/foreach}
+            </dl>
+            <dl style="width: 300px">
+                <dt>Scope of Business</dt>
+                {foreach $footer_ye as $about1}
+                <dd><a href="{:Url::build('/'.$about1['en_url'])}?id={$about1.id}">{$about1.en_title}</a></dd>
+                {/foreach}
+            </dl>
+            <dl style="width: 170px">
+                <dt>Fast Link</dt>
+                {foreach $nav as $abc}
+                <dd><a href="{:Url::build('/'.$abc['en_url'])}">{$abc.en_title}</a></dd>
+                {/foreach}
+            </dl>
+            <dl style="width: 180px">
+                <dt>Pay attention to us</dt>
+                <img src="{$config.img}" alt="">
+                <span style="padding-left:0;">YangXing Subscription</span>
+            </dl>
+            <dl class="dz">
+                <dt>Contact</dt>
+                <p>{$config.addr}</p>
+                <b>{$config.tel}</b>
+                <p>{$config.email}</p>
+            </dl>
+        </div>
+        <div class="foot-copy">
+            <p class="fl">{$config.en_footer}</p>
+            <p class="fr">Technical support：<a href="http://www.yuntianxia.com" target="_blank">YunTianXia</a></p>
+        </div>
+    </div>
+</footer>

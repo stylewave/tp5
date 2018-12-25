@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta  charset="UTF-8">
+    <title>{$title.en_title} - {$config.en_name}</title>
+    <meta name="keywords" content="{$config.keywords}" />
+    <meta name="description" content="{$config.description}" />
+    {include file="public/styles" /}
+</head>
+<body>
+<style>
+    .header .nav .nav-active6::after{
+        content: '';
+        width: 100%;
+        height: 3px;
+        background: #006db7;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+</style>
+<!-- header -->
+{include file="public/en_header" /}
+<!-- header end --> 
+<!-- banner -->
+    {foreach $banner as $ban}
+    {if $ban['cateid'] == 132}
+    <section class="page-banner" style="background: url({$ban.img|str_replace='\\\\','/',###}) center no-repeat;">
+    {/if}
+    {/foreach}
+        <div class="tit">{$title.en_title}</div>
+        <p>Human resources</p>
+    </section>
+<!-- banner end -->
+
+<!-- page-main -->
+    <div class="page-main">
+        <div class="warp">
+            <div class="pm-nav">
+                <a href="{:Url::build('/en_index')}">Home</a>
+                <span>></span>
+                <a href="{:Url::build('/'.$title['en_url'])}">Human</a>
+                <span>></span>
+                <a href="javascript:;">{$data.stitle}</a>
+            </div>
+            <section class="pm-left">
+                <div class="pl-tit">{$data.stitle}</div>
+                <div class="pl-cont">
+                    <p>{$data.en_ms|raw}</p>
+                </div>
+            </section>
+            <aside class="pm-right">
+                <dl>
+                    <dt>Human</dt>
+                    {foreach $dao as $d}
+                    <dd class="{if $data['cateid'] == $d['id']}pr-active{/if}"><a href="{:Url::build('/'.$d['en_url'])}?id={$d.id}">{$d.en_title}</a></dd>
+                    {/foreach}
+                </dl>
+                {include file="public/right" /}
+            </aside>
+        </div>
+    </div>
+<!-- page-main end -->
+
+<!-- footer -->
+{include file="public/en_footer" /}
+<!-- footer end -->
+</body>
+</html>

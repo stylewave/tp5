@@ -1,0 +1,69 @@
+<style>
+  #example1 tr:hover{
+    background-color: #1EA2E3;color: white;
+  }
+  #example1 tr a:hover{
+    color: white;
+  }
+  #example1 tr:hover td a,#example1 tr:hover td i{
+    color:#fff;
+  }
+  #example1 thead tr:hover:first-child{background:none;color:#333}
+</style>
+<script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/public/common.js"></script>
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <!--<div class="box-header">-->
+          <!--<h3 class="box-title">分类类别列表</h3>-->
+        <!--</div>-->
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table id="example1" class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+              <th>类别ID</th>
+              <th>类别名称</th>
+              <th>分类数量</th>
+              <th>添加时间</th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+         {foreach $list as $li}
+            <tr>
+              <td><a href="{:Url::build('admin/Cate/cateList',['tid'=>$li['id']])}" >{$li.id}</a></td>
+              <td><a href="{:Url::build('admin/Cate/cateList',['tid'=>$li['id']])}" >{$li.title}</a></td>
+              <td>{$li.num}</td>
+              <td>{$li.addtime}</td>
+              <td>{if $li['hexin'] == 1}系统内置类别，不可操作{else/}<a href="{:Url::build('admin/Cate/addType',['id'=>$li['id']])}" style="color: #333333;"><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;  <a href="javascript:void(0);" style="color: #333333;" onclick="isdel('您确定要删除这个类别吗？','{:Url::build('admin/Cate/delType',['id'=>$li['id']])}');"><i class="fa fa-trash-o"></i> 删除</a>{/if}</td>
+            </tr>
+         {/foreach}
+            </tbody>
+            <!--<tfoot>-->
+            <!--<tr>-->
+              <!--<th>Rendering engine</th>-->
+              <!--<th>Browser</th>-->
+              <!--<th>Platform(s)</th>-->
+              <!--<th>Engine version</th>-->
+              <!--<th>CSS grade</th>-->
+            <!--</tr>-->
+            <!--</tfoot>-->
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="dataTables_info"  role="status" aria-live="polite">
+        <!--Showing 1 to 10 of 57 entries-->
+      </div>
+    </div>
+  </div>
+</section>

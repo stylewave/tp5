@@ -1,0 +1,80 @@
+<link rel="stylesheet" href="__STATIC__/admin/adminlte/bower_components/select2/css/select2.min.css">
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="nav-tabs-custom" style="margin-top: 20px;">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#fa-icons-server" data-toggle="tab">基本信息</a></li>
+        </ul>
+        <form action="{:Url::build('admin/seo/seo');}" enctype="multipart/form-data" method="post" name="qxform" id="qxform">
+        <div class="tab-content">
+          <!-- Font Awesome Icons -->
+          <div class="tab-pane active" style="padding-left: 20px;" id="fa-icons-server">
+              <!--<input type="hidden" name="__token__" value="{$Request.token}" />-->
+              <input type="hidden" name="id" id="infoid" value="{$info.id}" />
+            <section id="new">
+
+              <div class="row fontawesome-icon-list">
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;" >
+                  <div class="form-group">
+                    <label>选择栏目：</label><select class="form-control select2" style="width:50%;" name="cate" id="cate">
+                    <option selected="selected" value="0">请选择栏目</option>
+                    {foreach $catelist as $rbac}
+                    <option value="{$rbac.title}" {if $rbac['title'] == $info['cate']}selected{/if}>{$rbac.title}</option>
+                    {/foreach}
+                  </select><span class="icon icon-cateid margin-small" ></span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-4" style="width: 60%;line-height: 30px;margin-top: 15px;">
+                  <label>栏目标题：</label><input type="text" style="color: #444444;width: 80%" id="title" name="title" value="{$info.title}"> <span class="icon icon-title margin-small" ></span>
+                </div>
+                  <div class="col-md-3 col-sm-4" style="width:60%;line-height:30px;margin-top:15px;display: inline-block;">
+                      <label>网站关键字：</label><textarea rows="2" name="keywords" style="text-indent:10px;width:100%;">{$info.keywords}</textarea>
+                  </div>
+                  <div class="col-md-3 col-sm-4" style="width:60%;line-height:30px;margin-top:15px;display: inline-block;">
+                      <label>网站描述：</label><textarea rows="2" name="description" style="text-indent:10px;width:100%;">{$info.description}</textarea>
+                  </div>
+
+              </div>
+            </section>
+          </div>
+          <button type="button" class="btn btn-primary" style="margin-top: 10px;margin-bottom:20px;margin-left: 100px;" onclick="qxsubmit();">提交</button><span class="icon icon-ms margin-small" ></span>
+          <button type="button" class="btn" style="margin-top: 10px;margin-bottom:20px;background: #ecf0f5" onclick="javascript:window.history.back(-1);">返回</button>
+        </div>
+        </form>
+        <!-- /.tab-content -->
+      </div>
+    </div>
+    <!-- /.col -->
+  </div>
+  <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+  <script type="text/javascript" src="__STATIC__/public/common.js"></script>
+  <script src="__STATIC__/admin/adminlte/bower_components/select2/js/select2.min.js"></script>
+  <script src="__STATIC__/admin/adminlte/bower_components/select2/js/i18n/zh-CN.js"></script>
+<script>
+    function qxsubmit() {
+        if($('#cate').val() <1) {
+            tips('请选择栏目！','.icon-cateid','cateid');
+            return false;
+        }
+        if($('#title').val() == '') {
+            tips('请填写标题！','.icon-title','title');
+            return false;
+        }
+        document.qxform.submit();
+    }
+    $(function() {
+        $('.select2').select2({
+            language:'zh-CN'
+        });
+    });
+</script>
+    <style>
+        .col-sm-4 input{text-indent:10px;}
+        #preview #imghead{margin-top:0px !important;}
+    </style>
+</section>
+
+
+
+

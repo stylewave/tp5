@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta  charset="UTF-8">
+    <title>{$config.title}</title>
+    <meta name="keywords" content="{$config.keywords}" />
+    <meta name="description" content="{$config.description}" />
+    {include file="public/style" /}
+</head>
+<body>
+<style>
+    .header .nav .nav-active3::after{
+        content: '';
+        width: 100%;
+        height: 3px;
+        background: #006db7;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+</style>
+<!-- header -->
+{include file="public/header" /}
+<!-- header end --> 
+<!-- banner -->
+    {foreach $banner as $ban}
+    {if $ban['cateid'] == 129}
+    <section class="page-banner" style="background: url({$ban.img|str_replace='\\\\','/',###}) center no-repeat;">
+    {/if}
+    {/foreach}
+        <div class="tit">业务范围</div>
+        <p>Business Scope</p>
+    </section>
+<!-- banner end -->
+
+<!-- page-main -->
+    <div class="page-main product">
+        <div class="warp" id="news">
+            <div class="index_tit">
+                <div>
+                    <h3>业务范围</h3>
+                    <p>定制物流服务</p>
+                    <span></span>
+                </div>
+            </div>
+            <ol>
+                {foreach $list as $k=>$lis}
+                    {foreach $lis.daos as $li}
+                    <li>
+                        <div class="img">
+                            <img src="{$li.img}" alt="">
+                            <a href="{:Url::build('/business_detail')}?id={$li.cateid}" class="more">阅读更多</a>
+                        </div>
+                        <div class="box">
+                            <a href="{:Url::build('/business_detail')}?id={$li.cateid}"><h3>{$li.title}</h3></a>
+                            <p>{$li.desc|getSubstr=0,48}</p>
+                        </div>
+                    </li>
+                    {/foreach}
+                {/foreach}
+            </ol>
+            <div class="page"></div>
+
+        </div>
+    </div>
+<!-- page-main end -->
+
+<!-- 公司承诺 -->
+    <section class="product-promise">
+        <h1>公司承诺</h1>
+        <p>作为承包商，我们承诺将负责所有供应链管理，确保您的货物安全，快速，准时。</p>
+    </section>
+<!-- 公司承诺 end -->
+
+<!-- 合作伙伴 -->
+    <section class="index-partner">
+        <div class="warp">
+            <div class="mr_frbox">
+                <img class="mr_frBtnL prev" src="__STATIC__/home/images/mfrl.gif" />
+                <div class="mr_frUl">
+                    <ul id="mr_fu">
+                        {foreach $lists as $lg}
+                        <li>
+                            <a href="javascript:void(0);"><img src="{$lg.img}" /></a>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+                <img class="mr_frBtnR next" src="__STATIC__/home/images/mfrr.gif" />
+            </div>
+        </div>
+    </section>
+<!-- 合作伙伴 end -->
+<!-- footer -->
+{include file="public/footer" /}
+<!-- footer end -->
+</body>
+</html>
+<script type="text/javascript">
+    function ellipsis(obj,num){
+        var oSpan = document.createElement("span");
+        oSpan.innerHTML = obj.innerHTML.length > num ? "...":"";
+        obj.innerHTML = obj.innerHTML.substring(0,num);
+        obj.appendChild(oSpan);
+    }
+
+    function getElements(obj,attr,value){
+        var arr = new Array();
+        for(var i=0;i<obj.length;i++){
+            if(obj[i].getAttribute(attr)==value){
+                arr.push(obj[i]);
+            }
+        }
+        return arr;    
+    }
+    var oNews = document.getElementById("news");
+    var aP = oNews.getElementsByTagName("p");
+    var aPara = getElements(aP,"data-type","paragraph");
+    for(var i=0;i<aPara.length;i++){
+        ellipsis(aPara[i],10);
+    }
+</script>
+<script>
+    $(".mr_frbox").slide({
+        titCell: "",
+        mainCell: ".mr_frUl ul",
+        autoPage: true,
+        effect: "leftLoop",
+        autoPlay: true,
+        vis: 6
+    });
+</script>
+

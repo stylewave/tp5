@@ -1,0 +1,39 @@
+<footer class="footer">
+    <div class="warp">
+        <div class="foot-top">
+            <dl>
+                <dt>关于我们</dt>
+                {foreach $footer_dao as $about}
+                <dd><a href="{:Url::build('/'.$about['url'])}?id={$about.id}">{$about.title}</a></dd>
+                {/foreach}
+            </dl>
+            <dl>
+                <dt>业务范围</dt>
+                {foreach $footer_ye as $about1}
+                <dd><a href="{:Url::build('/'.$about1['url'])}?id={$about1.id}">{$about1.title}</a></dd>
+                {/foreach}
+            </dl>
+            <dl>
+                <dt>快速链接</dt>
+                {foreach $nav as $abc}
+                <dd><a href="{:Url::build('/'.$abc['url'])}">{$abc.title}</a></dd>
+                {/foreach}
+            </dl>
+            <dl>
+                <dt>关注我们</dt>
+                <img src="{$config.img}" alt="">
+                <span>洋星公众号</span>
+            </dl>
+            <dl class="dz">
+                <dt>联系我们</dt>
+                <p>{$config.address}</p>
+                <b>{$config.tel}</b>
+                <p>{$config.email}</p>
+            </dl>
+        </div>
+        <div class="foot-copy">
+            <p class="fl">{$config.footer}</p>
+            <p class="fr">技术支持：<a href="http://www.yuntianxia.com" target="_blank">云天下</a></p>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$config.en_name}</title>
+    <meta name="keywords" content="{$config.keywords}" />
+    <meta name="description" content="{$config.description}" />
+    {include file="public/styles" /}
+</head>
+<body>
+<style>
+    .header .nav .nav-active1::after{
+        content: '';
+        width: 100%;
+        height: 3px;
+        background: #006db7;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+</style>
+<!-- header --> 
+{include file="public/en_header" /}
+<!-- header end --> 
+<!-- banner -->
+    <section class="banner">
+        <div class="b-img">
+            <!-- {foreach $banner as $ban}
+            {if $ban['cateid'] == 79}
+            <a href="{$ban.url}" style="background:url({$ban.img|str_replace='\\\\','/',###}) center no-repeat;"></a>
+            {/if}
+            {/foreach} -->
+            <a href="javascript:;" style="background:url(__STATIC__/home/images/ban_en1.jpg) center no-repeat;"></a>
+        </div>
+        <div class="b-list"></div>
+        <!-- <a class="bar-left" href="#"><em></em></a>
+        <a class="bar-right" href="#"><em></em></a>  -->
+    </section>
+<!-- banner end -->
+<!-- product -->
+    <section class="index-product">
+        <div class="warp">
+            <ul>
+                {foreach $list as $so}
+                {foreach $so.idao as $sos}
+                <li>
+                    <div class="img">
+                        <img src="{$sos.img}" alt="">
+                        <a href="{:Url::build('/en_business_detail')}?id={$sos.cateid}" class="more">Read more</a>
+                    </div>
+                    <div class="box">
+                        <h3>{$sos.stitle}</h3>
+                        <p>{$sos.en_desc|getSubstr=0,110}</p>
+                    </div>
+                </li>
+                {/foreach}
+                {/foreach}
+            </ul>
+        </div>
+        <div class="ip_more">
+            <a href="{:Url::build('/en_business')}">More</a>
+        </div>
+    </section>
+<!-- product end -->
+<!-- 我们的特色 -->
+    <section class="index-features">
+        <div class="warp">
+            <div class="index_tit">
+                <div>
+                    <h3>Our characteristics</h3>
+                    <p>Customized logistics service</p>
+                    <span></span>
+                </div>
+            </div>
+            <ul>
+                <li>
+                    <div class="img"><img src="__STATIC__/home/images/features01.png" alt=""></div>
+                    <div class="box">
+                        <p>Economic shipping</p>
+                        <span>We provide a comprehensive ocean freight forwarding service with excellent service from all major ships.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="img"><img src="__STATIC__/home/images/features02.png" alt=""></div>
+                    <div class="box">
+                        <p>Storage</p>
+                        <span>We provide a comprehensive ocean freight forwarding service with excellent service from all major ships.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="img"><img src="__STATIC__/home/images/features03.png" alt=""></div>
+                    <div class="box">
+                        <p>Delivery on the day</p>
+                        <span>We provide a comprehensive ocean freight forwarding service with excellent service from all major ships.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="img"><img src="__STATIC__/home/images/features04.png" alt=""></div>
+                    <div class="box">
+                        <p>Packaging and storage</p>
+                        <span>We provide a comprehensive ocean freight forwarding service with excellent service from all major ships.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="img"><img src="__STATIC__/home/images/features05.png" alt=""></div>
+                    <div class="box">
+                        <p>Time limit delivery</p>
+                        <span>We provide a comprehensive ocean freight forwarding service with excellent service from all major ships.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="img"><img src="__STATIC__/home/images/features06.png" alt=""></div>
+                    <div class="box">
+                        <p>Multimodal transport</p>
+                        <span>We provide a comprehensive ocean freight forwarding service with excellent service from all major ships.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+<!-- 我们的特色 end -->
+<!-- 覆盖范围 -->
+    <section class="index-range">
+        <div class="warp">
+            <h3>Coverage Range</h3>
+            <p>We cover different industries, including food and beverage, chemical, retail, durable goods, etc. View the complete list.</p>
+            <img src="__STATIC__/home/images/range01.png" alt="">
+            <dl>
+                <dd>Packaged consumer goods</dd>
+                <dd>Chemical</dd>
+                <dd>Food and drinks</dd>
+                <dd>Retail goods</dd>
+                <dd>Energy, oil and natural gas</dd>
+            </dl>
+        </div>
+    </section>
+<!-- 覆盖范围 end -->
+<!-- 新闻 -->
+    <section class="index-news">
+        <div class="in-top">
+            <div class="index_tit">
+                <div>
+                    <h3>News</h3>
+                    <p>Latest information on customized logistics services</p>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <div class="in-bottom">
+            <div class="warp">
+                <ul>
+                    {foreach $floor_news as $li}
+                    <li>
+                        <div class="img">
+                            <a href="{:Url::build('/en_news_detail')}?id={$li.id}"><img src="{$li.img}" alt=""></a>
+                        </div>
+                        <div class="box">
+                            <span>{$li.publishtime|date='Y-m-d'}</span>
+                            <a href="{:Url::build('/en_news_detail')}?id={$li.id}"><h3 style="height: 50px;overflow: hidden;">{$li.stitle}</h3></a>
+                            <p>{$li.en_desc|getSubstr=0,110}</p>
+                            <a href="{:Url::build('/en_news_detail')}?id={$li.id}" class="more">More</a>
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    </section>
+<!-- 新闻 end -->
+<!-- 合作伙伴 -->
+    <section class="index-partner">
+        <div class="warp">
+            <div class="mr_frbox">
+                <img class="mr_frBtnL prev" src="__STATIC__/home/images/mfrl.gif" />
+                <div class="mr_frUl">
+                    <ul id="mr_fu">
+                        {foreach $lists as $lg}
+                        <li>
+                            <a href="javascript:void(0);"><img src="{$lg.img}" /></a>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+                <img class="mr_frBtnR next" src="__STATIC__/home/images/mfrr.gif" />
+            </div>
+        </div>
+    </section>
+<!-- 合作伙伴 end -->
+<!-- footer -->
+{include file="public/en_footer" /}
+<!-- footer end -->
+</body>
+</html>
+<script>
+    $(".mr_frbox").slide({
+        titCell: "",
+        mainCell: ".mr_frUl ul",
+        autoPage: true,
+        effect: "leftLoop",
+        autoPlay: true,
+        vis: 6
+    });
+</script>
